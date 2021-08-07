@@ -1,41 +1,37 @@
-/*
-    *El componente Mask debe abrirse desde un componente externo
-    *Debe renderizarse en el body del html
-    *Debe ser obligatorio que se defina la prop "size", puede recibir las props adicionales que sean necesarias
-    *El contenedor Mask puede mostrar cualquier contenido que se le pase como hijo
-*/
-import React, { useState } from 'react'
+import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import PropTypes from 'prop-types';
 
-const Mask = () => {
+function Mask(props, ref){
+    let {
+        children = <> </>, 
+        size = {},
+        containerStyles = {}
+    } = props
 
-    const [isOpen] = useState(false)
+    const [isOpen, setOpen] = useState(false)
+
+    useImperativeHandle(ref, ()=>({
+        Open: () => {setOpen(true)},
+        Close: () => {setOpen(false)}
+    }))
 
     if(!isOpen) {
         return null
     }
 
     return (
-        <div style={styles.container} />
+        <div style={{...containerStyles, ...size.l}} >
+            <div style = {{...size.s}}>
+                {children}
+            </div>
+        </div>
     )
 }
 
-const styles = {
-    size: {
-        s: {
-            width: '70vw',
-            height: '60vh'
-        },
-        l: {
-            width: '90vw',
-            height: '80vh'
-        },
-    },
-    container: {
-        margin: 'auto',
-        top: 0,
-        left: 0,
-        background: '#000000aa'
-    }
+Mask.propTypes = {
+    children: PropTypes.any,
+    size: PropTypes.object,
+    containerStyles: PropTypes.object
 }
 
-export default Mask
+export default forwardRef(Mask)

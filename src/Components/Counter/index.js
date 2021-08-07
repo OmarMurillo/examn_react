@@ -1,26 +1,15 @@
-/*
-    El componente Counter es un contador de clics, aumenta en uno cuando se hace clic en el boton + 
-        y disminuye uno cuando se clickea el boton -, el boton "reset" es para regresar el valor a 0
-
-    *Realiza las funciones necesarias para hacer funcionar el componente como se describe
-    *Crea un componente igual que el que se describe haciendo uso de Redux
-    *Crea un componente igual que el que se describe haciendo uso de useReducer
-    *Utiliza diferentes rutas para los tres componentes
-*/
-
-import React from 'react'
+import React, {useState} from 'react'
 
 const Counter = () => {
-
+    const [count, setCount] = useState(0)
+    
     return (
         <div style={styles.container}>
-            <h3 style={{...styles.resetButton}}>Counter</h3>
-
-            <button>+</button>
-            <span style={styles.count}>0</span>
-            <button>-</button>
-
-            <button style={styles.resetButton}>Reset</button>
+            <h3 style={{...styles.resetButton}}>Counter con hooks</h3>
+            <button onClick = {()=> setCount(count+1)}>+</button>
+            <span style={styles.count}>{count}</span>
+            <button onClick = {()=> setCount(count-1)}>-</button>
+            <button  onClick = {()=> setCount(0)} style={styles.resetButton}>Reset</button>
         </div>
     )
 }
